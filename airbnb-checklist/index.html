@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ff6fa5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Airbnb Checklist">
+<title>Checklist Airbnb ✨</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink-50: #fff0f6;
+    --pink-100: #ffe4ef;
+    --pink-200: #ffc9df;
+    --pink-300: #ffb0cf;
+    --pink-400: #ff8fba;
+    --pink-500: #ff6fa5;
+    --pink-600: #f74c8b;
+    --pink-700: #d63372;
+    --rose: #c2185b;
+    --white: #ffffff;
+    --ink: #4a2b3a;
+    --ink-soft: #8a6b7b;
+    --shadow: 0 8px 28px rgba(255, 111, 165, 0.18);
+    --shadow-soft: 0 4px 14px rgba(255, 111, 165, 0.12);
+    --radius: 22px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background:
+      radial-gradient(1200px 500px at 110% -5%, #ffd6e8 0%, transparent 55%),
+      radial-gradient(900px 420px at -20% 10%, #ffe9f3 0%, transparent 50%),
+      linear-gradient(180deg, var(--pink-50) 0%, #ffffff 45%, var(--pink-50) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 120px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff8fba 0%, #ff6fa5 45%, #f74c8b 100%);
+    color: var(--white);
+    padding: 28px 20px 58px;
+    border-radius: 0 0 34px 34px;
+    box-shadow: 0 10px 30px rgba(247, 76, 139, 0.35);
+  }
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .hero::before { width: 220px; height: 220px; top: -90px; right: -60px; }
+  .hero::after  { width: 140px; height: 140px; bottom: -50px; left: -40px; }
+  .hero .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(6px);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    margin-bottom: 10px;
+  }
+  .hero h1 {
+    font-size: 27px;
+    font-weight: 800;
+    line-height: 1.15;
+    position: relative;
+  }
+  .hero p {
+    margin-top: 6px;
+    font-size: 13.5px;
+    font-weight: 400;
+    opacity: 0.92;
+    position: relative;
+  }
+
+  /* ---------- Stats sticky ---------- */
+  .stats-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 12px 14px 0;
+    margin-top: -34px;
+  }
+  .stats {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 14px 16px 12px;
+    border: 1px solid rgba(255, 176, 207, 0.35);
+  }
+  .stats-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .stat {
+    flex: 1;
+    text-align: center;
+  }
+  .stat .label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .stat .value {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--pink-600);
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  .stat .value.muted { color: var(--ink-soft); font-size: 15px; }
+  .stat-divider {
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--pink-200), transparent);
+  }
+  .progress-track {
+    margin-top: 11px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--pink-100);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ffb0cf, #ff6fa5, #f74c8b);
+    transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .progress-caption {
+    margin-top: 6px;
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Sections ---------- */
+  main { padding: 18px 14px 0; }
+
+  .section-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(255, 176, 207, 0.3);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    background: linear-gradient(180deg, #fff8fb 0%, #ffffff 100%);
+  }
+  .section-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    background: linear-gradient(135deg, var(--pink-100), var(--pink-200));
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+    flex-shrink: 0;
+  }
+  .section-titles { flex: 1; min-width: 0; }
+  .section-titles h2 {
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .section-titles .sub {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 1px;
+    display: block;
+  }
+  .section-meta {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .section-meta .count {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--pink-600);
+  }
+  .section-meta .spent {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .chevron {
+    flex-shrink: 0;
+    color: var(--pink-400);
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 0.25s ease;
+  }
+  .section-card.collapsed .chevron { transform: rotate(-90deg); }
+  .section-card.collapsed .section-body { display: none; }
+  .mini-track {
+    height: 4px;
+    background: var(--pink-100);
+    margin: 0 16px 10px;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .section-card.collapsed .mini-track { display: none; }
+  .mini-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffb0cf, #f74c8b);
+    border-radius: 999px;
+    transition: width 0.35s ease;
+  }
+
+  .section-body { padding: 2px 10px 12px; }
+
+  /* ---------- Items ---------- */
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 8px;
+    border-radius: 16px;
+    transition: background 0.2s ease;
+  }
+  .item + .item { border-top: 1px dashed rgba(255, 176, 207, 0.45); }
+  .item.done { background: linear-gradient(135deg, #fff5f9, #ffeef5); }
+
+  .check {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2.5px solid var(--pink-300);
+    background: var(--white);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 2px;
+    transition: all 0.2s ease;
+  }
+  .check:active { transform: scale(0.88); }
+  .check svg {
+    width: 15px;
+    height: 15px;
+    stroke: var(--white);
+    stroke-width: 3.4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+    transform: scale(0.4);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .item.done .check {
+    background: linear-gradient(135deg, #ff8fba, #f74c8b);
+    border-color: transparent;
+    box-shadow: 0 3px 10px rgba(247, 76, 139, 0.4);
+  }
+  .item.done .check svg { opacity: 1; transform: scale(1); }
+
+  .item-main { flex: 1; min-width: 0; }
+  .item-name {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    padding: 2px 2px 3px;
+    border-bottom: 1.5px solid transparent;
+  }
+  .item-name:focus {
+    border-bottom-color: var(--pink-300);
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 6px 6px 0 0;
+  }
+  .item.done .item-name { color: var(--ink-soft); text-decoration: line-through; text-decoration-color: var(--pink-300); }
+
+  .item-sub {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+  }
+  .ref-chip {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--pink-50);
+    border: 1px solid var(--pink-100);
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .paid-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--white);
+    border: 1.5px solid var(--pink-200);
+    border-radius: 999px;
+    padding: 2px 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .paid-wrap:focus-within {
+    border-color: var(--pink-500);
+    box-shadow: 0 0 0 3px rgba(255, 111, 165, 0.15);
+  }
+  .paid-wrap .sym {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pink-500);
+  }
+  .paid-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 72px;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .paid-input::placeholder { color: var(--pink-300); font-weight: 500; }
+  .item.done .paid-wrap { border-color: var(--pink-400); background: #fff8fb; }
+
+  .del-btn {
+    border: none;
+    background: transparent;
+    color: var(--pink-300);
+    font-size: 17px;
+    line-height: 1;
+    padding: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: color 0.2s, transform 0.15s;
+  }
+  .del-btn:active { transform: scale(0.85); }
+  .del-btn:hover { color: var(--pink-600); }
+
+  .add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: calc(100% - 16px);
+    margin: 6px 8px 2px;
+    padding: 10px;
+    border: 2px dashed var(--pink-200);
+    border-radius: 14px;
+    background: transparent;
+    color: var(--pink-500);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .add-btn:active { background: var(--pink-50); transform: scale(0.98); }
+
+  .empty-note {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    padding: 14px;
+  }
+
+  /* ---------- FAB settings ---------- */
+  .fab {
+    position: fixed;
+    right: 18px;
+    bottom: 22px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #ff8fba, #f74c8b);
+    color: var(--white);
+    font-size: 23px;
+    box-shadow: 0 8px 22px rgba(247, 76, 139, 0.45);
+    cursor: pointer;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .fab:active { transform: scale(0.9); }
+
+  /* ---------- Modal ---------- */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(74, 43, 58, 0.45);
+    backdrop-filter: blur(3px);
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+  .modal {
+    background: var(--white);
+    width: 100%;
+    max-width: 480px;
+    border-radius: 28px 28px 0 0;
+    padding: 12px 20px calc(24px + env(safe-area-inset-bottom));
+    transform: translateY(40px);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .modal-backdrop.open .modal { transform: translateY(0); }
+  .modal-grip {
+    width: 44px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--pink-200);
+    margin: 4px auto 16px;
+  }
+  .modal h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .modal .hint {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .field-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .currency-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .currency-opt {
+    padding: 11px 8px;
+    border-radius: 14px;
+    border: 2px solid var(--pink-100);
+    background: var(--white);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .currency-opt.sel {
+    border-color: var(--pink-500);
+    background: var(--pink-50);
+    color: var(--pink-600);
+  }
+  .modal-actions { display: flex; flex-direction: column; gap: 10px; }
+  .btn {
+    padding: 14px;
+    border-radius: 16px;
+    border: none;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, #ff8fba, #f74c8b);
+    color: var(--white);
+    box-shadow: 0 6px 18px rgba(247, 76, 139, 0.35);
+  }
+  .btn-ghost {
+    background: var(--pink-50);
+    color: var(--pink-600);
+    border: 1.5px solid var(--pink-200);
+  }
+  .btn-danger { background: #fff0f0; color: #d64550; border: 1.5px solid #ffd4d4; }
+
+  .install-tip {
+    margin-top: 16px;
+    background: linear-gradient(135deg, #fff5f9, #ffeef5);
+    border: 1px dashed var(--pink-300);
+    border-radius: 16px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .install-tip strong { color: var(--pink-600); }
+
+  /* ---------- Toast ---------- */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 92px;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 20px;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 200;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .footer-note {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--pink-400);
+    font-weight: 500;
+    padding: 8px 20px 20px;
+  }
+
+  @media (min-width: 560px) {
+    main, .stats-wrap { max-width: 560px; margin-left: auto; margin-right: auto; }
+    .hero { padding: 34px 24px 62px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">🎀 Anfitrión mode</span>
+  <h1>Mi Airbnb ✨</h1>
+  <p>Checklist para equipar tu Airbnb, paso a paso</p>
+</header>
+
+<div class="stats-wrap">
+  <div class="stats">
+    <div class="stats-row">
+      <div class="stat">
+        <div class="label">Gastado</div>
+        <div class="value" id="total-spent">$0</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="label">Presupuesto est.</div>
+        <div class="value muted" id="total-est">$0</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="label">Falta</div>
+        <div class="value muted" id="total-left">0 ítems</div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-caption" id="progress-caption">0 de 0 artículos comprados</div>
+  </div>
+</div>
+
+<main id="sections"></main>
+
+<p class="footer-note">Hecho con 💖 para tu Airbnb</p>
+
+<button class="fab" id="fab-settings" aria-label="Ajustes">⚙️</button>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-grip"></div>
+    <h3>Ajustes ⚙️</h3>
+    <p class="hint">Los precios de referencia son aproximados ( México ) y puedes editarlos directamente en la lista.</p>
+
+    <span class="field-label">Moneda</span>
+    <div class="currency-grid" id="currency-grid"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btn-close">Listo</button>
+      <button class="btn btn-ghost" id="btn-uncheck">Desmarcar todo (conserva precios)</button>
+      <button class="btn btn-danger" id="btn-reset">Restaurar lista original</button>
+    </div>
+
+    <div class="install-tip">
+      📲 <strong>Para usarla como app en tu celular:</strong> abre esta página en el navegador, toca <strong>Compartir</strong> y elige <strong>“Agregar a pantalla de inicio”</strong>. Funciona sin internet una vez instalada.
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'airbnb-checklist-v1';
+
+  var CURRENCIES = [
+    { code: 'MXN', label: '🇲🇽 Peso MX' },
+    { code: 'USD', label: '🇺🇸 Dólar' },
+    { code: 'COP', label: '🇨🇴 Peso CO' },
+    { code: 'ARS', label: '🇦🇷 Peso AR' },
+    { code: 'CLP', label: '🇨🇱 Peso CL' },
+    { code: 'PEN', label: '🇵🇪 Sol' },
+    { code: 'EUR', label: '🇪🇺 Euro' },
+    { code: 'GTQ', label: '🇬🇹 Quetzal' },
+    { code: 'DOP', label: '🇩🇴 Peso RD' }
+  ];
+
+  function uid() { return Math.random().toString(36).slice(2, 10); }
+
+  function buildDefaults() {
+    return {
+      currency: 'MXN',
+      collapsed: {},
+      sections: [
+        {
+          id: 'cama', emoji: '🛏️', name: 'Cama', sub: 'Para la cama principal',
+          items: [
+            { name: 'Colchón y base', ref: 14000 },
+            { name: 'Protector de colchón', ref: 450 },
+            { name: 'Juegos de sábanas y fundas de almohada', ref: 1200 },
+            { name: 'Almohadas y protectores de almohada', ref: 1600 },
+            { name: 'Edredón o cubrecama', ref: 1300 },
+            { name: 'Mantas adicionales y mesas de noche', ref: 2200 },
+            { name: 'Lámparas y cortinas', ref: 1800 }
+          ]
+        },
+        {
+          id: 'bano', emoji: '🛁', name: 'Baño', sub: 'Toallas, limpieza y detalles',
+          items: [
+            { name: 'Toallas de baño y de manos', ref: 800 },
+            { name: 'Tapete antideslizante', ref: 250 },
+            { name: 'Cortina de ducha, si aplica', ref: 450 },
+            { name: 'Dispensadores de jabón y porta papel', ref: 350 },
+            { name: 'Papel higiénico y papelera', ref: 400 },
+            { name: 'Escobilla de baño y secador de cabello', ref: 750 },
+            { name: 'Espejo y organizadores', ref: 1200 }
+          ]
+        },
+        {
+          id: 'cocina', emoji: '🍳', name: 'Cocina', sub: 'Vajilla, ollas y electrodomésticos',
+          items: [
+            { name: 'Platos, bowls, vasos y tazas', ref: 1200 },
+            { name: 'Cubiertos para todos los huéspedes', ref: 700 },
+            { name: 'Ollas, sartén y tapas', ref: 1500 },
+            { name: 'Cuchillos, tabla de picar y utensilios', ref: 900 },
+            { name: 'Escurridor, colador y recipientes', ref: 500 },
+            { name: 'Cafetera o método para preparar café', ref: 1200 },
+            { name: 'Microondas, licuadora y otros electrodomésticos', ref: 4000 },
+            { name: 'Basurero, paños y elementos de limpieza', ref: 600 }
+          ]
+        },
+        {
+          id: 'lavado', emoji: '🧺', name: 'Zona de lavado', sub: 'Ropa, limpieza y planchado',
+          items: [
+            { name: 'Canasto para ropa', ref: 400 },
+            { name: 'Detergente y suavizante', ref: 300 },
+            { name: 'Escoba, recogedor y trapero', ref: 500 },
+            { name: 'Balde, esponjas y paños', ref: 350 },
+            { name: 'Plancha y tabla de planchar', ref: 1300 },
+            { name: 'Tendedero y pinzas', ref: 500 },
+            { name: 'Productos básicos para limpieza', ref: 400 }
+          ]
+        },
+        {
+          id: 'sala', emoji: '🛋️', name: 'Sala y sofá cama', sub: 'Confort y decoración',
+          items: [
+            { name: 'Sofá cama', ref: 9000 },
+            { name: 'Protector y ropa de cama para el sofá', ref: 1200 },
+            { name: 'Almohadas y cobija adicional', ref: 900 },
+            { name: 'Mesa auxiliar', ref: 1200 },
+            { name: 'Lámpara e iluminación', ref: 900 },
+            { name: 'Cojines y decoración', ref: 800 },
+            { name: 'Cortinas, alfombra y espejo, según el espacio', ref: 2500 }
+          ]
+        }
+      ]
+    };
+  }
+
+  function normalize(data) {
+    data.sections.forEach(function (sec) {
+      sec.items.forEach(function (it) {
+        if (!it.id) it.id = uid();
+        if (typeof it.done !== 'boolean') it.done = false;
+        if (it.paid === undefined || it.paid === null) it.paid = '';
+        if (it.ref === undefined) it.ref = 0;
+      });
+    });
+    if (!data.collapsed) data.collapsed = {};
+    if (!data.currency) data.currency = 'MXN';
+    return data;
+  }
+
+  var state;
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    state = saved ? normalize(JSON.parse(saved)) : normalize(buildDefaults());
+  } catch (e) {
+    state = normalize(buildDefaults());
+  }
+
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function fmt(n) {
+    try {
+      return new Intl.NumberFormat('es-MX', {
+        style: 'currency', currency: state.currency,
+        minimumFractionDigits: 0, maximumFractionDigits: 0
+      }).format(n || 0);
+    } catch (e) {
+      return '$' + Math.round(n || 0).toLocaleString('es-MX');
+    }
+  }
+
+  function parseNum(v) {
+    var n = parseFloat(String(v).replace(/[^0-9.\-]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+
+  function paidOf(item) {
+    return item.done ? parseNum(item.paid) : 0;
+  }
+
+  function totals() {
+    var spent = 0, est = 0, done = 0, total = 0;
+    state.sections.forEach(function (sec) {
+      sec.items.forEach(function (it) {
+        total++;
+        est += it.ref || 0;
+        spent += paidOf(it);
+        if (it.done) done++;
+      });
+    });
+    return { spent: spent, est: est, done: done, total: total };
+  }
+
+  function sectionStats(sec) {
+    var spent = 0, done = 0;
+    sec.items.forEach(function (it) {
+      spent += paidOf(it);
+      if (it.done) done++;
+    });
+    return { spent: spent, done: done, total: sec.items.length };
+  }
+
+  var $sections = document.getElementById('sections');
+  var $spent = document.getElementById('total-spent');
+  var $est = document.getElementById('total-est');
+  var $left = document.getElementById('total-left');
+  var $fill = document.getElementById('progress-fill');
+  var $caption = document.getElementById('progress-caption');
+
+  function updateSummary() {
+    var t = totals();
+    $spent.textContent = fmt(t.spent);
+    $est.textContent = fmt(t.est);
+    var falta = t.total - t.done;
+    $left.textContent = falta + (falta === 1 ? ' ítem' : ' ítems');
+    var pct = t.total ? Math.round((t.done / t.total) * 100) : 0;
+    $fill.style.width = pct + '%';
+    $caption.textContent = t.done + ' de ' + t.total + ' artículos comprados · ' + pct + '% 🎉';
+  }
+
+  function updateSectionMeta(secId) {
+    var sec = state.sections.find(function (s) { return s.id === secId; });
+    if (!sec) return;
+    var st = sectionStats(sec);
+    var card = $sections.querySelector('[data-sec="' + secId + '"]');
+    if (!card) return;
+    card.querySelector('.count').textContent = st.done + '/' + st.total;
+    card.querySelector('.spent').textContent = st.spent > 0 ? 'Gastado ' + fmt(st.spent) : '—';
+    card.querySelector('.mini-fill').style.width = (st.total ? (st.done / st.total) * 100 : 0) + '%';
+  }
+
+  function toggleItem(secId, itemId, checkboxEl) {
+    var sec = state.sections.find(function (s) { return s.id === secId; });
+    if (!sec) return;
+    var item = sec.items.find(function (i) { return i.id === itemId; });
+    if (!item) return;
+    item.done = !item.done;
+    if (!item.done) item.paid = '';
+    save();
+
+    var row = checkboxEl.closest('.item');
+    row.classList.toggle('done', item.done);
+    var paidInput = row.querySelector('.paid-input');
+    paidInput.value = item.done ? item.paid : '';
+    paidInput.placeholder = item.done ? '0' : 'precio…';
+    updateSectionMeta(secId);
+    updateSummary();
+    if (item.done && parseNum(item.paid) === 0) {
+      setTimeout(function () { paidInput.focus(); }, 150);
+    }
+  }
+
+  function render() {
+    $sections.innerHTML = '';
+
+    state.sections.forEach(function (sec) {
+      var collapsed = !!state.collapsed[sec.id];
+
+      var card = document.createElement('section');
+      card.className = 'section-card' + (collapsed ? ' collapsed' : '');
+      card.setAttribute('data-sec', sec.id);
+
+      var header = document.createElement('div');
+      header.className = 'section-header';
+      header.innerHTML =
+        '<div class="section-icon">' + sec.emoji + '</div>' +
+        '<div class="section-titles"><h2></h2><span class="sub"></span></div>' +
+        '<div class="section-meta"><div class="count"></div><div class="spent"></div></div>' +
+        '<div class="chevron">▼</div>';
+      header.querySelector('h2').textContent = sec.name;
+      header.querySelector('.sub').textContent = sec.sub;
+      header.addEventListener('click', function () {
+        state.collapsed[sec.id] = !state.collapsed[sec.id];
+        save();
+        card.classList.toggle('collapsed');
+      });
+      card.appendChild(header);
+
+      var mini = document.createElement('div');
+      mini.className = 'mini-track';
+      mini.innerHTML = '<div class="mini-fill"></div>';
+      card.appendChild(mini);
+
+      var body = document.createElement('div');
+      body.className = 'section-body';
+
+      if (!sec.items.length) {
+        var empty = document.createElement('p');
+        empty.className = 'empty-note';
+        empty.textContent = 'Esta sección está vacía. ¡Agrega tu primer artículo!';
+        body.appendChild(empty);
+      }
+
+      sec.items.forEach(function (item) {
+        var row = document.createElement('div');
+        row.className = 'item' + (item.done ? ' done' : '');
+        row.setAttribute('data-id', item.id);
+
+        var check = document.createElement('button');
+        check.className = 'check';
+        check.setAttribute('aria-label', 'Marcar como comprado');
+        check.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="4 12.5 10 18.5 20 6.5"/></svg>';
+        check.addEventListener('click', function () { toggleItem(sec.id, item.id, check); });
+
+        var main = document.createElement('div');
+        main.className = 'item-main';
+
+        var nameInput = document.createElement('input');
+        nameInput.className = 'item-name';
+        nameInput.type = 'text';
+        nameInput.value = item.name;
+        nameInput.setAttribute('aria-label', 'Nombre del artículo');
+        nameInput.addEventListener('input', function () {
+          item.name = nameInput.value;
+          save();
+        });
+
+        var sub = document.createElement('div');
+        sub.className = 'item-sub';
+
+        var chip = document.createElement('span');
+        chip.className = 'ref-chip';
+        chip.textContent = '≈ ' + fmt(item.ref);
+
+        var paidWrap = document.createElement('label');
+        paidWrap.className = 'paid-wrap';
+        var sym = document.createElement('span');
+        sym.className = 'sym';
+        try {
+          sym.textContent = new Intl.NumberFormat('es-MX', { style: 'currency', currency: state.currency, currencyDisplay: 'narrowSymbol' }).format(0).replace(/[\d.,\s]/g, '');
+        } catch (e) { sym.textContent = '$'; }
+        var paidInput = document.createElement('input');
+        paidInput.className = 'paid-input';
+        paidInput.type = 'text';
+        paidInput.inputMode = 'decimal';
+        paidInput.placeholder = item.done ? '0' : 'precio…';
+        paidInput.value = item.done ? item.paid : '';
+        paidInput.setAttribute('aria-label', 'Precio pagado');
+        paidInput.addEventListener('input', function () {
+          item.paid = paidInput.value;
+          if (parseNum(paidInput.value) > 0 && !item.done) {
+            item.done = true;
+            row.classList.add('done');
+          }
+          save();
+          updateSectionMeta(sec.id);
+          updateSummary();
+        });
+        paidWrap.appendChild(sym);
+        paidWrap.appendChild(paidInput);
+
+        sub.appendChild(chip);
+        sub.appendChild(paidWrap);
+
+        main.appendChild(nameInput);
+        main.appendChild(sub);
+
+        var del = document.createElement('button');
+        del.className = 'del-btn';
+        del.textContent = '✕';
+        del.setAttribute('aria-label', 'Eliminar artículo');
+        del.addEventListener('click', function () {
+          if (!confirm('¿Eliminar "' + item.name + '" de la lista?')) return;
+          sec.items = sec.items.filter(function (i) { return i.id !== item.id; });
+          save();
+          render();
+          updateSummary();
+          toast('Artículo eliminado');
+        });
+
+        row.appendChild(check);
+        row.appendChild(main);
+        row.appendChild(del);
+        body.appendChild(row);
+      });
+
+      var addBtn = document.createElement('button');
+      addBtn.className = 'add-btn';
+      addBtn.innerHTML = '＋ Agregar artículo';
+      addBtn.addEventListener('click', function () {
+        var newItem = { id: uid(), name: 'Nuevo artículo', ref: 0, done: false, paid: '' };
+        sec.items.push(newItem);
+        if (state.collapsed[sec.id]) state.collapsed[sec.id] = false;
+        save();
+        render();
+        updateSummary();
+        var newRow = $sections.querySelector('[data-sec="' + sec.id + '"] [data-id="' + newItem.id + '"]');
+        if (newRow) {
+          var inp = newRow.querySelector('.item-name');
+          inp.focus();
+          inp.select();
+          newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+      body.appendChild(addBtn);
+
+      card.appendChild(body);
+      $sections.appendChild(card);
+      updateSectionMeta(sec.id);
+    });
+
+    updateSummary();
+  }
+
+  /* ---------- Settings modal ---------- */
+  var $modal = document.getElementById('modal');
+  var $currencyGrid = document.getElementById('currency-grid');
+
+  function renderCurrencyGrid() {
+    $currencyGrid.innerHTML = '';
+    CURRENCIES.forEach(function (c) {
+      var btn = document.createElement('button');
+      btn.className = 'currency-opt' + (state.currency === c.code ? ' sel' : '');
+      btn.textContent = c.label;
+      btn.addEventListener('click', function () {
+        state.currency = c.code;
+        save();
+        renderCurrencyGrid();
+        render();
+        toast('Moneda: ' + c.code);
+      });
+      $currencyGrid.appendChild(btn);
+    });
+  }
+
+  document.getElementById('fab-settings').addEventListener('click', function () {
+    renderCurrencyGrid();
+    $modal.classList.add('open');
+  });
+  document.getElementById('btn-close').addEventListener('click', function () {
+    $modal.classList.remove('open');
+  });
+  $modal.addEventListener('click', function (e) {
+    if (e.target === $modal) $modal.classList.remove('open');
+  });
+
+  document.getElementById('btn-uncheck').addEventListener('click', function () {
+    state.sections.forEach(function (sec) {
+      sec.items.forEach(function (it) { it.done = false; it.paid = ''; });
+    });
+    save();
+    render();
+    $modal.classList.remove('open');
+    toast('Todo desmarcado ✨');
+  });
+
+  document.getElementById('btn-reset').addEventListener('click', function () {
+    if (!confirm('¿Restaurar la lista original? Se perderán tus cambios, artículos agregados y precios.')) return;
+    state = normalize(buildDefaults());
+    save();
+    render();
+    $modal.classList.remove('open');
+    toast('Lista restaurada 🌸');
+  });
+
+  /* ---------- Toast ---------- */
+  var $toast = document.getElementById('toast');
+  var toastTimer;
+  function toast(msg) {
+    $toast.textContent = msg;
+    $toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { $toast.classList.remove('show'); }, 2000);
+  }
+
+  /* ---------- Init ---------- */
+  render();
+
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    });
+  }
+})();
+</script>
+</body>
+</html>
