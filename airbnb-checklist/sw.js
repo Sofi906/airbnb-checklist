@@ -1,4 +1,4 @@
-const CACHE = 'airbnb-checklist-v1';
+const CACHE = 'airbnb-checklist-v2';
 const ASSETS = [
   './',
   './index.html',

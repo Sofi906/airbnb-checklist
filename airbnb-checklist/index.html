@@ -326,6 +326,16 @@
     border-radius: 999px;
     white-space: nowrap;
   }
+  .store-chip {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--pink-700, #a8336b);
+    background: #fff;
+    border: 1px dashed var(--pink-300);
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
   .paid-wrap {
     display: inline-flex;
     align-items: center;
@@ -610,7 +620,7 @@
   <div class="modal">
     <div class="modal-grip"></div>
     <h3>Ajustes ⚙️</h3>
-    <p class="hint">Los precios de referencia son aproximados ( México ) y puedes editarlos directamente en la lista.</p>
+     <p class="hint">Precios de referencia aproximados ( Colombia, COP ) con hasta 2 tiendas por ítem. Puedes editarlos directamente en la lista.</p>
 
     <span class="field-label">Moneda</span>
     <div class="currency-grid" id="currency-grid"></div>
@@ -633,12 +643,12 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'airbnb-checklist-v1';
+  var STORAGE_KEY = 'airbnb-checklist-v2';
 
   var CURRENCIES = [
+    { code: 'COP', label: '🇨🇴 Peso CO' },
     { code: 'MXN', label: '🇲🇽 Peso MX' },
     { code: 'USD', label: '🇺🇸 Dólar' },
-    { code: 'COP', label: '🇨🇴 Peso CO' },
     { code: 'ARS', label: '🇦🇷 Peso AR' },
     { code: 'CLP', label: '🇨🇱 Peso CL' },
     { code: 'PEN', label: '🇵🇪 Sol' },
@@ -651,68 +661,92 @@
 
   function buildDefaults() {
     return {
-      currency: 'MXN',
-      collapsed: {},
+      currency: 'COP',
+      collapsed: { cama: true, bano: true, cocina: true, lavado: true, sala: true },
       sections: [
         {
           id: 'cama', emoji: '🛏️', name: 'Cama', sub: 'Para la cama principal',
           items: [
-            { name: 'Colchón y base', ref: 14000 },
-            { name: 'Protector de colchón', ref: 450 },
-            { name: 'Juegos de sábanas y fundas de almohada', ref: 1200 },
-            { name: 'Almohadas y protectores de almohada', ref: 1600 },
-            { name: 'Edredón o cubrecama', ref: 1300 },
-            { name: 'Mantas adicionales y mesas de noche', ref: 2200 },
-            { name: 'Lámparas y cortinas', ref: 1800 }
+            { name: 'Colchón queen 160x190', ref: 1300000, stores: 'Falabella · Homecenter' },
+            { name: 'Base cama / sommier doble', ref: 1100000, stores: 'Homecenter · Falabella' },
+            { name: 'Protector de colchón', ref: 90000, stores: 'Falabella · Homecenter' },
+            { name: 'Juegos de sábanas con fundas (2 juegos)', ref: 180000, stores: 'Éxito · Falabella' },
+            { name: 'Almohadas (par)', ref: 90000, stores: 'Éxito · Alkosto' },
+            { name: 'Protectores de almohada (par)', ref: 40000, stores: 'Éxito · Homecenter' },
+            { name: 'Edredón o cubrecama', ref: 150000, stores: 'Falabella · Éxito' },
+            { name: 'Manta / cobija adicional', ref: 80000, stores: 'Éxito · Falabella' },
+            { name: 'Mesas de noche (2 unidades)', ref: 350000, stores: 'Homecenter · Falabella' },
+            { name: 'Lámpara de noche', ref: 100000, stores: 'Homecenter · Éxito' },
+            { name: 'Cortinas blackout (par)', ref: 200000, stores: 'Homecenter · Falabella' }
           ]
         },
         {
           id: 'bano', emoji: '🛁', name: 'Baño', sub: 'Toallas, limpieza y detalles',
           items: [
-            { name: 'Toallas de baño y de manos', ref: 800 },
-            { name: 'Tapete antideslizante', ref: 250 },
-            { name: 'Cortina de ducha, si aplica', ref: 450 },
-            { name: 'Dispensadores de jabón y porta papel', ref: 350 },
-            { name: 'Papel higiénico y papelera', ref: 400 },
-            { name: 'Escobilla de baño y secador de cabello', ref: 750 },
-            { name: 'Espejo y organizadores', ref: 1200 }
+            { name: 'Toallas de cuerpo (2)', ref: 100000, stores: 'Falabella · Éxito' },
+            { name: 'Toallas de manos (2)', ref: 50000, stores: 'Falabella · Éxito' },
+            { name: 'Toallas faciales (2)', ref: 30000, stores: 'Éxito · Falabella' },
+            { name: 'Tapete antideslizante', ref: 40000, stores: 'Homecenter · Éxito' },
+            { name: 'Cortina de ducha (si aplica)', ref: 60000, stores: 'Homecenter · Falabella' },
+            { name: 'Dispensador de jabón', ref: 35000, stores: 'Homecenter · Éxito' },
+            { name: 'Porta papel higiénico', ref: 30000, stores: 'Homecenter · Éxito' },
+            { name: 'Papel higiénico (paquete)', ref: 30000, stores: 'Éxito · Olímpica' },
+            { name: 'Papelera', ref: 40000, stores: 'Homecenter · Éxito' },
+            { name: 'Escobilla de baño', ref: 30000, stores: 'Homecenter · Éxito' },
+            { name: 'Secador de cabello', ref: 90000, stores: 'Éxito · Alkosto' },
+            { name: 'Espejo', ref: 100000, stores: 'Homecenter · Falabella' },
+            { name: 'Organizadores / repisas', ref: 50000, stores: 'Homecenter · Éxito' }
           ]
         },
         {
           id: 'cocina', emoji: '🍳', name: 'Cocina', sub: 'Vajilla, ollas y electrodomésticos',
           items: [
-            { name: 'Platos, bowls, vasos y tazas', ref: 1200 },
-            { name: 'Cubiertos para todos los huéspedes', ref: 700 },
-            { name: 'Ollas, sartén y tapas', ref: 1500 },
-            { name: 'Cuchillos, tabla de picar y utensilios', ref: 900 },
-            { name: 'Escurridor, colador y recipientes', ref: 500 },
-            { name: 'Cafetera o método para preparar café', ref: 1200 },
-            { name: 'Microondas, licuadora y otros electrodomésticos', ref: 4000 },
-            { name: 'Basurero, paños y elementos de limpieza', ref: 600 }
+            { name: 'Vajilla 6 puestos', ref: 180000, stores: 'Falabella · Homecenter' },
+            { name: 'Vasos (set x6)', ref: 50000, stores: 'Éxito · Homecenter' },
+            { name: 'Tazas (set x6)', ref: 50000, stores: 'Éxito · Homecenter' },
+            { name: 'Cubiertos (set x6)', ref: 80000, stores: 'Homecenter · Falabella' },
+            { name: 'Batería de ollas (7 piezas)', ref: 280000, stores: 'Alkosto · Homecenter' },
+            { name: 'Sartén antiadherente', ref: 80000, stores: 'Éxito · Homecenter' },
+            { name: 'Cuchillos (set)', ref: 70000, stores: 'Homecenter · Falabella' },
+            { name: 'Tabla de picar', ref: 30000, stores: 'Éxito · Homecenter' },
+            { name: 'Utensilios de cocina (set)', ref: 50000, stores: 'Éxito · Homecenter' },
+            { name: 'Escurridor de platos', ref: 40000, stores: 'Homecenter · Éxito' },
+            { name: 'Colador', ref: 25000, stores: 'Éxito · Homecenter' },
+            { name: 'Recipientes / táper', ref: 60000, stores: 'Éxito · Homecenter' },
+            { name: 'Cafetera', ref: 120000, stores: 'Alkosto · Éxito' },
+            { name: 'Microondas', ref: 300000, stores: 'Alkosto · Éxito' },
+            { name: 'Licuadora', ref: 120000, stores: 'Alkosto · Éxito' },
+            { name: 'Basurero de cocina', ref: 50000, stores: 'Homecenter · Éxito' },
+            { name: 'Paños, esponjas y lavaplatos', ref: 50000, stores: 'Éxito · Olímpica' }
           ]
         },
         {
           id: 'lavado', emoji: '🧺', name: 'Zona de lavado', sub: 'Ropa, limpieza y planchado',
           items: [
-            { name: 'Canasto para ropa', ref: 400 },
-            { name: 'Detergente y suavizante', ref: 300 },
-            { name: 'Escoba, recogedor y trapero', ref: 500 },
-            { name: 'Balde, esponjas y paños', ref: 350 },
-            { name: 'Plancha y tabla de planchar', ref: 1300 },
-            { name: 'Tendedero y pinzas', ref: 500 },
-            { name: 'Productos básicos para limpieza', ref: 400 }
+            { name: 'Canasto para ropa', ref: 60000, stores: 'Homecenter · Éxito' },
+            { name: 'Detergente y suavizante', ref: 45000, stores: 'Éxito · Olímpica' },
+            { name: 'Escoba y recogedor', ref: 45000, stores: 'Homecenter · Éxito' },
+            { name: 'Trapero / mopa', ref: 45000, stores: 'Homecenter · Éxito' },
+            { name: 'Balde, esponjas y paños', ref: 45000, stores: 'Éxito · Homecenter' },
+            { name: 'Plancha de ropa', ref: 90000, stores: 'Falabella · Éxito' },
+            { name: 'Tabla de planchar', ref: 90000, stores: 'Homecenter · Falabella' },
+            { name: 'Tendedero', ref: 110000, stores: 'Homecenter · Falabella' },
+            { name: 'Pinzas para ropa', ref: 15000, stores: 'Éxito · Olímpica' },
+            { name: 'Productos básicos de limpieza', ref: 50000, stores: 'Éxito · Olímpica' }
           ]
         },
         {
           id: 'sala', emoji: '🛋️', name: 'Sala y sofá cama', sub: 'Confort y decoración',
           items: [
-            { name: 'Sofá cama', ref: 9000 },
-            { name: 'Protector y ropa de cama para el sofá', ref: 1200 },
-            { name: 'Almohadas y cobija adicional', ref: 900 },
-            { name: 'Mesa auxiliar', ref: 1200 },
-            { name: 'Lámpara e iluminación', ref: 900 },
-            { name: 'Cojines y decoración', ref: 800 },
-            { name: 'Cortinas, alfombra y espejo, según el espacio', ref: 2500 }
+            { name: 'Sofá cama', ref: 1100000, stores: 'Homecenter · Falabella' },
+            { name: 'Protector y ropa de cama para el sofá', ref: 120000, stores: 'Éxito · Falabella' },
+            { name: 'Almohadas y cobija adicional', ref: 100000, stores: 'Éxito · Falabella' },
+            { name: 'Mesa auxiliar', ref: 200000, stores: 'Homecenter · Falabella' },
+            { name: 'Lámpara / iluminación', ref: 100000, stores: 'Homecenter · Éxito' },
+            { name: 'Cojines decorativos', ref: 80000, stores: 'Éxito · Falabella' },
+            { name: 'Cortinas', ref: 200000, stores: 'Homecenter · Falabella' },
+            { name: 'Alfombra', ref: 150000, stores: 'Homecenter · Éxito' },
+            { name: 'Espejo decorativo', ref: 120000, stores: 'Homecenter · Falabella' }
           ]
         }
       ]
@@ -726,10 +760,11 @@
         if (typeof it.done !== 'boolean') it.done = false;
         if (it.paid === undefined || it.paid === null) it.paid = '';
         if (it.ref === undefined) it.ref = 0;
+        if (typeof it.stores !== 'string') it.stores = '';
       });
     });
     if (!data.collapsed) data.collapsed = {};
-    if (!data.currency) data.currency = 'MXN';
+    if (!data.currency) data.currency = 'COP';
     return data;
   }
 
@@ -747,12 +782,12 @@
 
   function fmt(n) {
     try {
-      return new Intl.NumberFormat('es-MX', {
+      return new Intl.NumberFormat('es-CO', {
         style: 'currency', currency: state.currency,
         minimumFractionDigits: 0, maximumFractionDigits: 0
       }).format(n || 0);
     } catch (e) {
-      return '$' + Math.round(n || 0).toLocaleString('es-MX');
+      return '$' + Math.round(n || 0).toLocaleString('es-CO');
     }
   }
 
@@ -914,7 +949,7 @@
         var sym = document.createElement('span');
         sym.className = 'sym';
         try {
-          sym.textContent = new Intl.NumberFormat('es-MX', { style: 'currency', currency: state.currency, currencyDisplay: 'narrowSymbol' }).format(0).replace(/[\d.,\s]/g, '');
+          sym.textContent = new Intl.NumberFormat('es-CO', { style: 'currency', currency: state.currency, currencyDisplay: 'narrowSymbol' }).format(0).replace(/[\d.,\s]/g, '');
         } catch (e) { sym.textContent = '$'; }
         var paidInput = document.createElement('input');
         paidInput.className = 'paid-input';
@@ -937,6 +972,14 @@
         paidWrap.appendChild(paidInput);
 
         sub.appendChild(chip);
+
+        if (item.stores) {
+          var storeChip = document.createElement('span');
+          storeChip.className = 'store-chip';
+          storeChip.textContent = '🏬 ' + item.stores;
+          sub.appendChild(storeChip);
+        }
+
         sub.appendChild(paidWrap);
 
         main.appendChild(nameInput);
